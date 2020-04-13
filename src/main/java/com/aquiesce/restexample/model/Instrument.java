@@ -3,7 +3,11 @@ package com.aquiesce.restexample.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Instrument {
+import java.io.Serializable;
+
+public class Instrument implements Serializable {
+
+    private static final long serialVersionUID = -295422703255886286L;
 
     public Instrument(long id, String name) {
         this.id = id;
