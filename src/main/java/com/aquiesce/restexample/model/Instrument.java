@@ -1,10 +1,16 @@
 package com.aquiesce.restexample.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
+@XmlRootElement
 public class Instrument implements Serializable {
 
     private static final long serialVersionUID = -295422703255886286L;
+
+    public Instrument() {
+    }
 
     public Instrument(long id, String name) {
         this.id = id;
@@ -14,6 +20,7 @@ public class Instrument implements Serializable {
     private long id;
     private String name;
 
+    @XmlElement
     public long getId() {
         return id;
     }
@@ -22,6 +29,7 @@ public class Instrument implements Serializable {
         this.id = id;
     }
 
+    @XmlElement
     public String getName() {
         return name;
     }

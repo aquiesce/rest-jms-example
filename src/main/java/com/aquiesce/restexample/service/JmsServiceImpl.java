@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
+
 @Service
 public class JmsServiceImpl implements JmsService {
 
@@ -19,6 +24,18 @@ public class JmsServiceImpl implements JmsService {
     public void send(Instrument message){
 
         LOGGER.info("sending message='{}'", message);
-        jmsTemplate.convertAndSend("helloworld.q", message);
+
+        try {
+            JAXBContext context = JAXBContext.newInstance(Instrument.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            var s = new StringWriter();
+            marshaller.marshal(message, s);
+
+            jmsTemplate.convertAndSend("xml.q", s.toString());
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 }
